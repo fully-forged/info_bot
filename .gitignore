@@ -3,3 +3,4 @@
 /ebin
 /deps
 .envrc
+/test/*.beam
