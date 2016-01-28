@@ -1,3 +1,6 @@
 /.erlang.mk
 /_rel
 /ebin
+/deps
+.envrc
+/test/*.beam
