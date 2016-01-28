@@ -14,7 +14,7 @@ call_function(DeviceId, FunctionName, Args) ->
   case hackney:post(Url, default_headers(), ReqBody, []) of
     {ok, 200, _ResponseHeaders, RespBodyRef} ->
       {ok, RespBody} = hackney:body(RespBodyRef),
-      jsx:decode(RespBody, [return_maps]);
+      {ok, jsx:decode(RespBody, [return_maps])};
     {error, Reason} ->
       {error, Reason}
   end.
@@ -23,7 +23,7 @@ get_json(Url) ->
   case hackney:get(Url, default_headers(), <<>>, []) of
     {ok, 200, _ResponseHeaders, BodyRef} ->
       {ok, Body} = hackney:body(BodyRef),
-      jsx:decode(Body, [return_maps]);
+      {ok, jsx:decode(Body, [return_maps])};
     {error, Reason} ->
       {error, Reason}
   end.
