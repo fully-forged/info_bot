@@ -1,4 +1,4 @@
--module(info_bot_particle_api_tests).
+-module(hackney_url_extra_tests).
 
 -ifdef(TEST).
 
@@ -7,12 +7,12 @@
 url_chain_test() ->
   Expected = <<"foo/bar/baz">>,
   Segments = [<<"foo">>, <<"bar">>, <<"baz">>],
-  ?assertEqual(Expected,info_bot_particle_api:url_chain(Segments, [])).
+  ?assertEqual(Expected,hackney_url_extra:url_chain(Segments, [])).
 
 url_chain_with_opts_test() ->
   Expected = <<"foo/bar/baz?a=b">>,
   Segments = [<<"foo">>, <<"bar">>, <<"baz">>],
   Opts = [{<<"a">>, <<"b">>}],
-  ?assertEqual(Expected,info_bot_particle_api:url_chain(Segments, Opts)).
+  ?assertEqual(Expected,hackney_url_extra:url_chain(Segments, Opts)).
 
 -endif.
