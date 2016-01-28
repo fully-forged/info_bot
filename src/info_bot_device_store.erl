@@ -63,7 +63,7 @@ refresh(State) ->
   end.
 
 mapsToDevices(DeviceMaps) ->
-  lists:map(fun(#{<<"id">> := Id, <<"name">> := Name}) ->
-              #info_bot_device{id=Id, name=Name}
+  lists:map(fun(#{<<"id">> := Id, <<"name">> := Name, <<"connected">> := Connected}) ->
+              #info_bot_device{id=Id, name=Name, connected=Connected}
             end,
             DeviceMaps).

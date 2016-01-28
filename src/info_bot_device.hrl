@@ -1,4 +1,5 @@
 -record(info_bot_device, {
   id,
-  name
+  name,
+  connected
 }).
