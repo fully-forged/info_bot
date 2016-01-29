@@ -2,7 +2,7 @@
 
 -define(ENDPOINT, <<"https://api.particle.io">>).
 
--export([get_devices/0, call_function/3]).
+-export([get_devices/0, call_function/3, default_headers/0]).
 
 get_devices() ->
   Url = hackney_url_extra:url_chain([?ENDPOINT, <<"/v1/devices">>], []),
