@@ -3,7 +3,7 @@
 
 -define(ENDPOINT, "api.particle.io").
 -define(PREFIX, "info-bot").
--define(TIMEOUT, 10000).
+-define(TIMEOUT, 30000).
 -define(HEARTBEAT_DATA, <<10>>).
 -define(SUCCESSFUL_CONNECTION_DATA, <<58,111,107,10,10>>).
 
