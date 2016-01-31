@@ -2,8 +2,7 @@
 -behaviour(gen_server).
 
 %% API.
--export([start_link/0, process_event/1
-        ]).
+-export([start_link/0, process/1]).
 
 %% gen_server.
 -export([init/1]).
@@ -24,8 +23,8 @@
 start_link() ->
   gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
-process_event(Event) ->
-  gen_server:cast(?MODULE, {process, Event}).
+process(EventData) ->
+  gen_server:cast(?MODULE, {process, EventData}).
 
 %% gen_server.
 
@@ -35,8 +34,8 @@ init([]) ->
 handle_call(_Request, _From, State) ->
   {reply, ignored, State}.
 
-handle_cast({process, Event}, State = #state{counter = Counter}) ->
-  DeviceId = maps:get(<<"coreid">>, Event#sse_event.data),
+handle_cast({process, Data}, State = #state{counter = Counter}) ->
+  DeviceId = maps:get(<<"coreid">>, Data),
   Args = format_message(<<"Counter">>, integer_to_binary(Counter)),
   {ok, _Resp} = info_bot_particle_api:call_function(DeviceId, <<"setMessage">>, Args),
   {noreply, State#state{counter = Counter + 1}};
