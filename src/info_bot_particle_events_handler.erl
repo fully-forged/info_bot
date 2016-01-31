@@ -2,7 +2,6 @@
 -behaviour(gen_server).
 
 -define(ENDPOINT, "api.particle.io").
--define(PREFIX, "info-bot").
 -define(TIMEOUT, 30000).
 -define(HEARTBEAT_DATA, <<10>>).
 -define(SUCCESSFUL_CONNECTION_DATA, <<58,111,107,10,10>>).
@@ -25,7 +24,7 @@ init([]) ->
   {ok, Conn} = gun:open(?ENDPOINT, 443),
   monitor(process, Conn),
   Headers = info_bot_particle_api:default_headers(),
-  gun:get(Conn, "/v1/devices/events/" ++ ?PREFIX, Headers),
+  gun:get(Conn, "/v1/devices/events", Headers),
   {ok, initial_state()}.
 
 handle_info({gun_up, _Conn, http}, State = #{phase := idle}) ->
@@ -41,7 +40,7 @@ handle_info({gun_data, _Conn, _StreamRef, nofin, ?SUCCESSFUL_CONNECTION_DATA}, S
 handle_info({gun_data, _Conn, _StreamRef, nofin, Data}, State = #{phase := receiving, event := Event}) ->
   case sse_parser:parse(Data) of
     {event, NewEvent} ->
-      io:format("~w", [NewEvent]),
+      sse_event:process(NewEvent),
       {noreply, State, ?TIMEOUT};
     {type, EventType} ->
       EventWithType = Event#sse_event{type = EventType},
@@ -50,7 +49,7 @@ handle_info({gun_data, _Conn, _StreamRef, nofin, Data}, State = #{phase := recei
     {data, EventData} ->
       EventWithData = Event#sse_event{data = EventData},
       NewState = State#{event := EventWithData},
-      io:format("~w", [EventWithData]),
+      sse_event:process(EventWithData),
       {noreply, NewState, ?TIMEOUT}
   end;
 handle_info({gun_data, _Conn, _StreamRef, fin, _Data}, #{event := Event}) ->
