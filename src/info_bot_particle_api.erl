@@ -8,6 +8,8 @@ get_devices() ->
   Url = hackney_url_extra:url_chain([?ENDPOINT, <<"/v1/devices">>], []),
   get_json(Url).
 
+call_function(DeviceId, FunctionName, Args) when is_list(DeviceId) ->
+  call_function(list_to_binary(DeviceId), FunctionName, Args);
 call_function(DeviceId, FunctionName, Args) ->
   Url = hackney_url_extra:url_chain([?ENDPOINT, <<"/v1/devices">>, DeviceId, FunctionName], []),
   ReqBody = {form, [{<<"arg">>, Args}]},
