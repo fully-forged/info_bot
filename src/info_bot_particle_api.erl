@@ -2,10 +2,17 @@
 
 -define(ENDPOINT, <<"https://api.particle.io">>).
 
--export([get_devices/0, call_function/3, default_headers/0]).
+-export([get_devices/0, get_device/1,
+         call_function/3, default_headers/0]).
 
 get_devices() ->
   Url = hackney_url_extra:url_chain([?ENDPOINT, <<"/v1/devices">>], []),
+  get_json(Url).
+
+get_device(DeviceId) when is_list(DeviceId) ->
+  get_device(list_to_binary(DeviceId));
+get_device(DeviceId) ->
+  Url = hackney_url_extra:url_chain([?ENDPOINT, <<"/v1/devices">>, DeviceId], []),
   get_json(Url).
 
 call_function(DeviceId, FunctionName, Args) when is_list(DeviceId) ->
