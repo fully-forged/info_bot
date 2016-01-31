@@ -41,7 +41,7 @@ handle_info({gun_data, _Conn, _StreamRef, nofin, ?SUCCESSFUL_CONNECTION_DATA}, S
 handle_info({gun_data, _Conn, _StreamRef, nofin, Data}, State = #{phase := receiving, event := Event}) ->
   case sse_parser:parse(Data) of
     {event, NewEvent} ->
-      io:format("~w", [NewEvent]),
+      info_bot_device_manager:process_event(NewEvent),
       {noreply, State, ?TIMEOUT};
     {type, EventType} ->
       EventWithType = Event#sse_event{type = EventType},
@@ -50,7 +50,7 @@ handle_info({gun_data, _Conn, _StreamRef, nofin, Data}, State = #{phase := recei
     {data, EventData} ->
       EventWithData = Event#sse_event{data = EventData},
       NewState = State#{event := EventWithData},
-      io:format("~w", [EventWithData]),
+      info_bot_device_manager:process_event(EventWithData),
       {noreply, NewState, ?TIMEOUT}
   end;
 handle_info({gun_data, _Conn, _StreamRef, fin, _Data}, #{event := Event}) ->
