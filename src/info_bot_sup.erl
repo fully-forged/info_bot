@@ -11,5 +11,6 @@ start_link() ->
 
 init([]) ->
   Procs = [?CHILD(info_bot_device_store, worker),
-           ?CHILD(info_bot_particle_events_handler, worker)],
+           ?CHILD(info_bot_particle_events_handler, worker),
+           ?CHILD(info_bot_device_manager, worker)],
   {ok, {{one_for_one, 1, 5}, Procs}}.
