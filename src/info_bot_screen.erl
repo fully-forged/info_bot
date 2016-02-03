@@ -23,12 +23,3 @@ join_lines([H | T], <<>>) ->
   join_lines(T, H);
 join_lines([H | T], Acc) ->
   join_lines(T, <<Acc/binary, ?SEPARATOR/binary, H/binary>>).
-
-
-%% format_message(Line1msg, Line2msg) ->
-%%   Line1Pad = binary:copy(<<" ">>, 16 - byte_size(Line1msg)),
-%%   Line2Pad = binary:copy(<<" ">>, 16 - byte_size(Line2msg)),
-%%   Line1 = <<Line1msg/binary, Line1Pad/binary>>,
-%%   Line2 = <<Line2Pad/binary, Line2msg/binary>>,
-%%   Separator = <<"|">>,
-%%   <<Line1/binary, Separator/binary, Line2/binary>>.
