@@ -4,3 +4,5 @@
 /deps
 .envrc
 /test/*.beam
+.otto/
+.ottoid

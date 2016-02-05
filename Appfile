@@ -1,0 +1,8 @@
+application {
+    name = "info-bot"
+    type = "custom"
+}
+
+customization "dev" {
+    vagrantfile = "./Vagrantfile.tpl"
+}
