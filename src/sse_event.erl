@@ -13,4 +13,7 @@ process(#sse_event{type = "spark/status", data = Data}) ->
       info_bot_device_store:add(DeviceId);
     <<"offline">> ->
       info_bot_device_store:remove(DeviceId)
-  end.
+  end;
+%% Catch all for all other possible events
+process(#sse_event{type = _Any}) ->
+  ok.
